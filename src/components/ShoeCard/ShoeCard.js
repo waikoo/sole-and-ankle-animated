@@ -35,11 +35,13 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          <Image alt="" src={imageSrc} />
-          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
-          {variant === 'new-release' && (
-            <NewFlag>Just released!</NewFlag>
-          )}
+          <ImageInnerWrapper>
+            <Image alt="" src={imageSrc} />
+            {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
+            {variant === 'new-release' && (
+              <NewFlag>Just released!</NewFlag>
+            )}
+          </ImageInnerWrapper>
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
@@ -75,13 +77,28 @@ const Link = styled.a`
 
 const Wrapper = styled.article``;
 
+const ImageInnerWrapper = styled.div`
+overflow: clip;
+border-radius: 16px 16px 4px 4px;
+`
 const ImageWrapper = styled.div`
   position: relative;
 `;
 
 const Image = styled.img`
   width: 100%;
+  display: block;
   border-radius: 16px 16px 4px 4px;
+  transition: 500ms ease-out;
+  will-change: transform;
+  
+@media (prefers-reduced-motion: no-preference) {
+  &:hover {
+    scale: 1.1;
+    transition: 200ms ease-out;
+    transform-origin: 50% 75%%;
+  }
+}
 `;
 
 const Row = styled.div`
@@ -121,6 +138,14 @@ const Flag = styled.div`
   font-weight: ${WEIGHTS.bold};
   color: var(--color-white);
   border-radius: 2px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: 200ms ease-out;
+    transform: translateX(0);
+    &:hover {
+      transform: translateX(6px);
+    }
+  }
 `;
 
 const SaleFlag = styled(Flag)`
